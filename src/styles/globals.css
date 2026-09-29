@@ -1,0 +1,13 @@
+/* ============================================================================
+   NEXA — GLOBAL STYLESHEET
+   Order matters: Tailwind + shadcn primitives, then the NEXA theme (colors),
+   then the app's component layer.
+   ========================================================================== */
+
+@import 'tailwindcss';
+@import 'tw-animate-css';
+@import 'shadcn/tailwind.css';
+
+@import '../shared/theme/palette.css';
+@import '../shared/theme/tailwind.css';
+@import './components.css';

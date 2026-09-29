@@ -1,0 +1,125 @@
+/* ============================================================================
+   NEXA — COLOR SOURCE OF TRUTH
+   ----------------------------------------------------------------------------
+   Every color in the product is declared here, once. `tailwind.css` maps these
+   names into Tailwind tokens (bg-surface, text-text-dim, border-line, ...), so
+   components never hardcode a hex value and dark mode is a pure token swap.
+
+   Three layers:
+     1. PRIMITIVES    brand + status hues. Theme independent, never themed.
+     2. SEMANTICS     surface / text / border / glass roles, per data-theme.
+     3. SHADCN ROLES  the shadcn/ui scale, aliased onto layer 2 so every
+                      shadcn primitive (button, input, dialog, form) inherits
+                      the NEXA look without per-component overrides.
+   ========================================================================== */
+
+:root {
+  /* ---- 1. PRIMITIVES ---------------------------------------------------- */
+  --accent-blue: #4c7dff;
+  --accent-violet: #8b6cff;
+  --accent-grad: linear-gradient(135deg, #4c7dff 0%, #8b6cff 100%);
+
+  --success: #2fd498;
+  --warning: #f5b94a;
+  --danger: #f2555f;
+
+  --success-bg: rgba(47, 212, 152, 0.12);
+  --warning-bg: rgba(245, 185, 74, 0.12);
+  --danger-bg: rgba(242, 85, 95, 0.12);
+
+  /* avatar / logo rotation (deterministic — see shared/lib/format.ts) */
+  --avatar-1: #4c7dff;
+  --avatar-2: #8b6cff;
+  --avatar-3: #2fd498;
+  --avatar-4: #f5b94a;
+  --avatar-5: #f2555f;
+  --avatar-6: #3fb8d9;
+  --avatar-7: #e06ac4;
+
+  /* soft chart fills */
+  --chart-meeting: #8ca9ff;
+  --chart-call: #5fe0b4;
+
+  /* ---- 2. SEMANTICS — LIGHT (default) ----------------------------------- */
+  --bg: #f3f1ec;
+  --bg-2: #eae8e2;
+  --surface: #ffffff;
+  --surface-2: #f7f6f2;
+  --surface-3: #efede7;
+  --glass: rgba(255, 255, 255, 0.55);
+  --glass-strong: rgba(255, 255, 255, 0.75);
+  --border: rgba(20, 20, 25, 0.09);
+  --border-strong: rgba(20, 20, 25, 0.16);
+  --text: #16171b;
+  --text-dim: #5b5d66;
+  --text-faint: #8b8d96;
+  --shadow-sm: 0 1px 2px rgba(20, 20, 30, 0.06);
+  --shadow-md: 0 8px 24px rgba(20, 20, 30, 0.08);
+  --shadow-lg: 0 24px 64px rgba(20, 20, 30, 0.14);
+  --sidebar-bg: rgba(255, 255, 255, 0.7);
+  --scrim: rgba(20, 20, 25, 0.35);
+
+  /* ---- 3. SHADCN ROLES — LIGHT ------------------------------------------ */
+  --background: var(--bg);
+  --foreground: var(--text);
+  --card: var(--surface);
+  --card-foreground: var(--text);
+  --popover: var(--surface);
+  --popover-foreground: var(--text);
+  --primary: var(--accent-blue);
+  --primary-foreground: #ffffff;
+  --secondary: var(--surface-3);
+  --secondary-foreground: var(--text);
+  --muted: var(--surface-2);
+  --muted-foreground: var(--text-dim);
+  --accent: var(--surface-3);
+  --accent-foreground: var(--text);
+  --destructive: var(--danger);
+  --destructive-foreground: #ffffff;
+  --success: var(--success);
+  --success-foreground: #04120c;
+  --warning: var(--warning);
+  --warning-foreground: #1a1204;
+  --input: var(--border);
+  --ring: var(--accent-blue);
+  --chart-1: var(--accent-blue);
+  --chart-2: var(--accent-violet);
+  --chart-3: var(--success);
+  --chart-4: var(--warning);
+  --chart-5: var(--danger);
+  --sidebar: var(--sidebar-bg);
+  --sidebar-foreground: var(--text);
+  --sidebar-primary: var(--accent-blue);
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: var(--surface-2);
+  --sidebar-accent-foreground: var(--text);
+  --sidebar-border: var(--border);
+  --sidebar-ring: var(--accent-blue);
+  --radius: 0.875rem;
+}
+
+[data-theme='dark'] {
+  /* ---- 2. SEMANTICS — DARK ---------------------------------------------- */
+  --bg: #0a0b0e;
+  --bg-2: #0f1013;
+  --surface: #16171c;
+  --surface-2: #1c1e25;
+  --surface-3: #22242c;
+  --glass: rgba(255, 255, 255, 0.045);
+  --glass-strong: rgba(255, 255, 255, 0.07);
+  --border: rgba(255, 255, 255, 0.08);
+  --border-strong: rgba(255, 255, 255, 0.14);
+  --text: #f3f2ef;
+  --text-dim: #a5a7b1;
+  --text-faint: #6e7079;
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.45);
+  --shadow-lg: 0 24px 64px rgba(0, 0, 0, 0.55);
+  --sidebar-bg: rgba(15, 16, 19, 0.82);
+  --scrim: rgba(5, 5, 7, 0.6);
+
+  /* ---- 3. SHADCN ROLES — DARK ------------------------------------------- */
+  --destructive-foreground: #ffffff;
+  --success-foreground: #04120c;
+  --warning-foreground: #1a1204;
+}

@@ -1,4 +1,5 @@
 import { useMemo, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import {
   Activity,
   CalendarClock,
@@ -24,7 +25,6 @@ import { LOST_BASE, REVENUE_BASE, REVENUE_SERIES, STAGES, WON_BASE } from '@/dom
 import { useCrmStore } from '@/domains/crm/crm.store'
 import type { ActivityKind } from '@/domains/crm/crm.types'
 import { openPipeline, totalBy, weightedValue } from '@/domains/crm/crm.utils'
-import { useNavigationStore } from '@/domains/navigation'
 
 const ACTIVITY_ICONS: Record<ActivityKind, typeof Pencil> = {
   edit: Pencil,
@@ -47,7 +47,7 @@ export function OverviewView() {
   const leads = useCrmStore((state) => state.leads)
   const tasks = useCrmStore((state) => state.tasks)
   const openCreate = useCrmStore((state) => state.openCreate)
-  const setView = useNavigationStore((state) => state.setView)
+  const navigate = useNavigate()
   const [range, setRange] = useState<RangeLabel>('30D')
 
   const open = openPipeline(deals)
@@ -195,7 +195,7 @@ export function OverviewView() {
                   {open.length} open deals · {fmtMoney(pipelineValue)} total
                 </small>
               </div>
-              <button className="chip" onClick={() => setView('deals')}>
+              <button className="chip" onClick={() => navigate('/deals')}>
                 Open board
               </button>
             </div>
@@ -237,7 +237,7 @@ export function OverviewView() {
         <div className="card" style={{ maxHeight: 640, overflowY: 'auto' }}>
           <div className="panel-head">
             <div className="panel-title">Recent activity</div>
-            <button className="chip" onClick={() => setView('activities')}>
+            <button className="chip" onClick={() => navigate('/activities')}>
               View all
             </button>
           </div>
@@ -258,7 +258,7 @@ export function OverviewView() {
                 </div>
               )
             })}
-            <button className="btn btn-ghost btn-sm" onClick={() => setView('tasks')}>
+            <button className="btn btn-ghost btn-sm" onClick={() => navigate('/tasks')}>
               <CalendarClock />
               {todayTasks.length} tasks due today
               <ChevronRight />

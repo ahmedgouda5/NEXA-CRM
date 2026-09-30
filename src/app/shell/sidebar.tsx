@@ -1,3 +1,4 @@
+import { useNavigate, useLocation } from 'react-router-dom'
 import { Moon, Settings, Sun } from 'lucide-react'
 import { toast } from 'sonner'
 import { AvatarChip } from '@/domains/crm/components/crm-primitives'
@@ -6,8 +7,9 @@ import { NAV_GROUPS, useNavigationStore } from '@/domains/navigation'
 import { useTheme } from '@/shared/theme/theme-provider'
 
 export function Sidebar() {
-  const activeView = useNavigationStore((state) => state.activeView)
-  const setView = useNavigationStore((state) => state.setView)
+  const navigate = useNavigate()
+  const { pathname } = useLocation()
+
   const rail = useNavigationStore((state) => state.rail)
   const toggleRail = useNavigationStore((state) => state.toggleRail)
   const mobileNavOpen = useNavigationStore((state) => state.mobileNavOpen)
@@ -16,6 +18,11 @@ export function Sidebar() {
   const openContact = useCrmStore((state) => state.openContact)
   const unread = useCrmStore((state) => state.conversations.filter((item) => item.unread).length)
   const { theme, setTheme } = useTheme()
+
+  function goTo(path: string) {
+    navigate(path)
+    setMobileNavOpen(false)
+  }
 
   return (
     <>
@@ -94,6 +101,7 @@ export function Sidebar() {
               <div className="nav-label">{group.label}</div>
               {group.items.map((item) => {
                 const Icon = item.icon
+                const isActive = pathname === item.path
                 const badge =
                   item.id === 'inbox' && unread > 0 ? String(unread) : (item.badge ?? undefined)
                 return (
@@ -101,8 +109,8 @@ export function Sidebar() {
                     type="button"
                     key={item.id}
                     className="nav-item"
-                    data-active={activeView === item.id ? 'true' : 'false'}
-                    onClick={() => setView(item.id)}
+                    data-active={isActive ? 'true' : 'false'}
+                    onClick={() => goTo(item.path)}
                     title={item.label}
                   >
                     <Icon className="size-4" />
@@ -123,8 +131,13 @@ export function Sidebar() {
               title={favorite.label}
               onClick={() => {
                 if (favorite.kind === 'contact') openContact(favorite.id)
-                else if (favorite.kind === 'company') setView(favorite.view)
-                else setView(favorite.view)
+                else {
+                  // Navigate to the favorite's view path
+                  const navItem = NAV_GROUPS
+                    .flatMap((g) => g.items)
+                    .find((item) => item.id === favorite.view)
+                  if (navItem) goTo(navItem.path)
+                }
               }}
             >
               <span className="fav-dot">{favorite.label.charAt(0)}</span>

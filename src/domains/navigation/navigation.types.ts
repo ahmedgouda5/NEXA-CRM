@@ -18,6 +18,7 @@ export type NavItem = {
   id: ViewId
   label: string
   icon: LucideIcon
+  path: string
   badge?: string
 }
 

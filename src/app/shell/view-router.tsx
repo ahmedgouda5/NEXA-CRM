@@ -1,4 +1,5 @@
 import { useEffect } from 'react'
+import { Routes, Route, Navigate } from 'react-router-dom'
 import { useNavigationStore } from '@/domains/navigation'
 import { ActivitiesView } from '@/domains/crm/activities/components/activities-view'
 import { CalendarView } from '@/domains/crm/calendar/components/calendar-view'
@@ -13,25 +14,8 @@ import { OverviewView } from '@/domains/crm/overview/components/overview-view'
 import { ReportsView } from '@/domains/crm/reports/components/reports-view'
 import { TasksView } from '@/domains/crm/tasks/components/tasks-view'
 
-const VIEWS = {
-  overview: OverviewView,
-  inbox: InboxView,
-  contacts: ContactsView,
-  companies: CompaniesView,
-  leads: LeadsView,
-  deals: DealsView,
-  activities: ActivitiesView,
-  tasks: TasksView,
-  calendar: CalendarView,
-  reports: ReportsView,
-  automations: AutomationsView,
-  integrations: IntegrationsView,
-} as const
-
 export function ViewRouter() {
-  const activeView = useNavigationStore((state) => state.activeView)
   const setCommandOpen = useNavigationStore((state) => state.setCommandOpen)
-  const Active = VIEWS[activeView]
 
   useEffect(() => {
     function onKeyDown(event: KeyboardEvent) {
@@ -44,5 +28,22 @@ export function ViewRouter() {
     return () => window.removeEventListener('keydown', onKeyDown)
   }, [setCommandOpen])
 
-  return <Active />
+  return (
+    <Routes>
+      <Route path="/" element={<OverviewView />} />
+      <Route path="/inbox" element={<InboxView />} />
+      <Route path="/contacts" element={<ContactsView />} />
+      <Route path="/companies" element={<CompaniesView />} />
+      <Route path="/leads" element={<LeadsView />} />
+      <Route path="/deals" element={<DealsView />} />
+      <Route path="/activities" element={<ActivitiesView />} />
+      <Route path="/tasks" element={<TasksView />} />
+      <Route path="/calendar" element={<CalendarView />} />
+      <Route path="/reports" element={<ReportsView />} />
+      <Route path="/automations" element={<AutomationsView />} />
+      <Route path="/integrations" element={<IntegrationsView />} />
+      {/* Fallback: redirect unknown paths to overview */}
+      <Route path="*" element={<Navigate to="/" replace />} />
+    </Routes>
+  )
 }

@@ -1,4 +1,5 @@
 import { useMemo } from 'react'
+import { useNavigate } from 'react-router-dom'
 import {
   Building,
   Command,
@@ -23,9 +24,9 @@ import { NAV_GROUPS, useNavigationStore } from '@/domains/navigation'
 import { initials, colorFor } from '@/shared/lib/format'
 
 export function CommandMenu() {
+  const navigate = useNavigate()
   const open = useNavigationStore((state) => state.commandOpen)
   const setOpen = useNavigationStore((state) => state.setCommandOpen)
-  const setView = useNavigationStore((state) => state.setView)
   const openCreate = useCrmStore((state) => state.openCreate)
   const openContact = useCrmStore((state) => state.openContact)
   const openDeal = useCrmStore((state) => state.openDeal)
@@ -107,7 +108,7 @@ export function CommandMenu() {
               <CommandItem
                 key={page.id}
                 value={`go ${page.label}`}
-                onSelect={() => run(() => setView(page.id))}
+                onSelect={() => run(() => navigate(page.path))}
               >
                 <Icon />
                 {page.label}
@@ -137,7 +138,7 @@ export function CommandMenu() {
             <CommandItem
               key={company.id}
               value={`company ${company.name} ${company.industry}`}
-              onSelect={() => run(() => setView('companies'))}
+              onSelect={() => run(() => navigate('/companies'))}
             >
               <Dot name={company.name} />
               {company.name}

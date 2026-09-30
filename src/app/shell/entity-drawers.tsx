@@ -1,4 +1,5 @@
 import { useMemo } from 'react'
+import { useNavigate } from 'react-router-dom'
 import {
   Briefcase,
   Building,
@@ -29,7 +30,7 @@ export function EntityDrawers() {
   const moveDeal = useCrmStore((state) => state.moveDeal)
   const conversations = useCrmStore((state) => state.conversations)
   const openConversation = useCrmStore((state) => state.openConversation)
-  const setView = useNavigationStore((state) => state.setView)
+  const navigate = useNavigate()
   const favorites = useNavigationStore((state) => state.favorites)
   const toggleFavorite = useNavigationStore((state) => state.toggleFavorite)
 
@@ -160,7 +161,7 @@ export function EntityDrawers() {
                       className="btn btn-ghost btn-sm"
                       onClick={() => {
                         openContact(null)
-                        setView('inbox')
+                        navigate('/inbox')
                         openConversation(thread.id)
                       }}
                     >
